@@ -1,0 +1,12 @@
+import express from "express";
+
+const router = express.Router();
+const { index, googlesignup } = require("../controller/auth.controller");
+
+router.get("/", index); //index
+
+//---------------Social Authentication---------------------
+
+router.post("/googlesignup", googlesignup); //google authentication
+
+module.exports = router;
