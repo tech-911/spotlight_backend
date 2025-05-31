@@ -1,13 +1,11 @@
-import app from "./server";
-import { PORT } from "./server";
+import express from "express";
+const app = express();
 import mongoose from "mongoose";
 import cors from "cors";
-import express from "express";
 import dotenv from "dotenv";
 const authRoute = require("./routes/auth.route");
 import * as admin from "firebase-admin";
-// import credentials from "../credentials.json";
-import { ServiceAccount } from "firebase-admin";
+// import { ServiceAccount } from "firebase-admin";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -51,6 +49,8 @@ app.get("/", (req, res) => {
 //-------Auth route----------
 app.use("/api/auth", authRoute);
 
+//-----------Declare server port and listen----------
+const PORT = process.env.PORT || 3300;
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT} use: http://localhost:${PORT}/`);
 });
