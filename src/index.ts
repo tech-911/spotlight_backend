@@ -6,7 +6,7 @@ import express from "express";
 import dotenv from "dotenv";
 const authRoute = require("./routes/auth.route");
 import * as admin from "firebase-admin";
-import credentials from "../credentials.json";
+// import credentials from "../credentials.json";
 import { ServiceAccount } from "firebase-admin";
 
 // Load environment variables from .env file
@@ -33,8 +33,14 @@ mongoose
   });
 
 //===================== Initialize Firebase admin =====================
+const firebaseCredentials = process.env.FIREBASE_ADMIN_SDK_CREDENTIALS;
+if (!firebaseCredentials) {
+  throw new Error(
+    "FIREBASE_ADMIN_SDK_CREDENTIALS environment variable is not defined"
+  );
+}
 admin.initializeApp({
-  credential: admin.credential.cert(credentials as ServiceAccount),
+  credential: admin.credential.cert(JSON.parse(firebaseCredentials)),
 });
 
 //===================== Middleware Routes =====================
