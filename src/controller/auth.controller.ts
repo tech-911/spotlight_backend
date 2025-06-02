@@ -8,21 +8,6 @@ const index = (req: Request, res: Response) => {
   res.status(201).send("Welcome to spotlight 💗");
 };
 
-// const verifyIDToken = async (req: Request, res: Response, idToken: string) => {
-//   try {
-//     const authUser = await admin.auth().verifyIdToken(idToken as string);
-//     if (authUser) {
-//       console.log("User authenticated successfully:", authUser);
-//       return authUser;
-//     } else {
-//       return res.status(401).send({ message: "Invalid ID token" });
-//     }
-//   } catch (error) {
-//     console.error("Error verifying ID token:", error);
-//     return res.status(401).send({ message: "Invalid ID token", error: error });
-//   }
-// };
-
 const googlesignup = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;
   const { checkEmail } = req.body;
@@ -40,12 +25,20 @@ const googlesignup = async (req: Request, res: Response) => {
   const existingUser = await User.findOne({ email: checkEmail });
   console.log("existing user: ", existingUser);
   if (!existingUser) {
-    let authenticatedUser = await admin.auth().verifyIdToken(idToken as string);
-    console.log("User authenticated successfully:", authenticatedUser);
+    let authenticatedUser;
+    try {
+      authenticatedUser = await admin.auth().verifyIdToken(idToken as string);
+    } catch (error) {
+      console.log("Error verifying ID token:", error);
+      return res
+        .status(401)
+        .send({ message: "Invalid ID token", error: error });
+    }
+    console.log("authenticated user:", authenticatedUser);
+
     if (!authenticatedUser)
       return res.status(401).send({ message: "Invalid ID token" });
 
-    // const { authUser } = authenticatedUser as admin.auth.DecodedIdToken;
     const { name, picture, uid, email, email_verified } =
       authenticatedUser as admin.auth.DecodedIdToken;
 
