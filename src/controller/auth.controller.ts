@@ -84,7 +84,7 @@ const googlesignup = async (req: Request, res: Response) => {
     return res.status(200).send({
       message: "User already exists, login successful",
       token,
-      existingUser,
+      user: existingUser,
     });
   }
 };
