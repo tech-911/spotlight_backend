@@ -29,7 +29,9 @@ function verifyToken(req: Request, res: Response, next: NextFunction) {
 
   jwt.verify(token, process.env.JWT_SECRET, (err: any, user: any) => {
     if (err)
-      return res.status(403).json({ message: "Token is invalid or expired" });
+      return res
+        .status(403)
+        .json({ message: "Token is invalid or expired", error: err });
     req.user = user; // decoded token payload
     next();
   });

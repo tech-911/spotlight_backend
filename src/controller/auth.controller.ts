@@ -3,10 +3,13 @@ import * as admin from "firebase-admin";
 import User from "../model/User";
 const { generateToken } = require("../verification/generateJWT");
 
-const index = (req: Request, res: Response) => {
+// --------------------Welcome Controller--------------------
+const index = (res: Response) => {
   console.log("a get request was made to /");
   res.status(201).send("Welcome to spotlight 💗");
 };
+
+// --------------------Google Authentication Controller--------------------
 
 const googlesignup = async (req: Request, res: Response) => {
   const authHeader = req.headers.authorization;

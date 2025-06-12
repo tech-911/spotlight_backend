@@ -4,7 +4,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 const authRoute = require("./routes/auth.route");
+const appRoute = require("./routes/app.route");
 import * as admin from "firebase-admin";
+const { verifyToken } = require("./verification/verifyJWT");
 // import { ServiceAccount } from "firebase-admin";
 
 // Load environment variables from .env file
@@ -48,8 +50,10 @@ app.get("/", (req, res) => {
 });
 //-------Auth route----------
 app.use("/api/auth", authRoute);
+//-------Application route----------
+app.use("/api/app", verifyToken, appRoute);
 
-//-----------Declare server port and listen----------
+//===================== Declare server port and listen =====================
 const PORT = process.env.PORT || 3300;
 app.listen(PORT, () => {
   console.log(`Running on port: ${PORT} use: http://localhost:${PORT}/`);

@@ -1,9 +1,10 @@
 import express from "express";
-
 const router = express.Router();
 const { index, googlesignup } = require("../controller/auth.controller");
 
-router.get("/", index); //index
+//---------------Index route---------------------
+
+router.get("/", index);
 
 //---------------Social Authentication---------------------
 
