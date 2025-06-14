@@ -12,6 +12,19 @@ const { verifyToken } = require("./verification/verifyJWT");
 // Load environment variables from .env file
 dotenv.config();
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
+  next();
+});
+
 //Cross-Origin Resource Sharing (CORS) handler
 app.use(cors());
 
